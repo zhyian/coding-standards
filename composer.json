@@ -8,7 +8,7 @@
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "phpcompatibility/phpcompatibility-wp": "*",
     "squizlabs/php_codesniffer": "*",
-    "wp-coding-standards/wpcs": *
+    "wp-coding-standards/wpcs": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "*"
