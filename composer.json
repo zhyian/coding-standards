@@ -1,0 +1,22 @@
+{
+  "name": "ZhiyanOlexandr/coding-standards",
+  "description": "PHP Coding Standards",
+  "type": "phpcodesniffer-standard",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.4",
+    "dealerdirect/phpcodesniffer-composer-installer": "*",
+    "phpcompatibility/phpcompatibility-wp": "*",
+    "squizlabs/php_codesniffer": "*",
+    "wp-coding-standards/wpcs": *
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
+  "authors": [
+    {
+      "name": "Oleksandr Zhyian",
+      "email": "zhiyan.olexandr@gmail.com"
+    }
+  ]
+}
