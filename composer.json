@@ -1,5 +1,5 @@
 {
-  "name": "ZhiyanOlexandr/coding-standards",
+  "name": "zhiyan-olexandr/coding-standards",
   "description": "PHP Coding Standards",
   "type": "phpcodesniffer-standard",
   "license": "MIT",
@@ -18,5 +18,10 @@
       "name": "Oleksandr Zhyian",
       "email": "zhiyan.olexandr@gmail.com"
     }
-  ]
+  ],
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
 }

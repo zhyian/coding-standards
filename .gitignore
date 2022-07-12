@@ -4,3 +4,6 @@
 # IDE
 .idea/
 .vscode/
+
+# Dependency directories
+.vendor

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ruleset name="OZ">
+    <description>Oleksandr Zhyian coding standards.</description>
+
+    <!-- Third-party code -->
+    <exclude-pattern>*/bower-components/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+
+    <!-- Ensure certain file types aren't sniffed -->
+    <exclude-pattern>*\.(css|js)</exclude-pattern>
+
+    <!-- Loads the PHP Compatibility ruleset. -->
+    <rule ref="PHPCompatibilityWP" />
+
+</ruleset>
