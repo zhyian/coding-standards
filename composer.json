@@ -11,7 +11,7 @@
     "wp-coding-standards/wpcs": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "*"
+    "phpunit/phpunit": "^7.5.0"
   },
   "authors": [
     {
@@ -23,5 +23,8 @@
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
     }
+  },
+  "scripts": {
+    "test": "phpunit"
   }
 }
