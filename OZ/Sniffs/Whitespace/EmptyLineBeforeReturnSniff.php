@@ -40,20 +40,40 @@ class EmptyLineBeforeReturnSniff implements Sniff
     public function process( File $phpcsFile, $stackPtr )
     {
         $tokens = $phpcsFile->getTokens();
-        $previous = $phpcsFile->findPrevious( Tokens::$emptyTokens, $stackPtr - 1, null, true );
+        $previous = $phpcsFile->findPrevious(
+            Tokens::$emptyTokens,
+            $stackPtr - 1,
+            null,
+            true
+        );
 
-        if ( $tokens[ $stackPtr ][ 'line' ] - $tokens[ $previous ][ 'line' ] < 2 ) {
+        if (
+            $tokens[ $stackPtr ][ 'line' ] - $tokens[ $previous ][ 'line' ] == 1
+            && $tokens[ $previous ][ 'type' ] != 'T_OPEN_CURLY_BRACKET'
+        ) {
             $is_fixed = $phpcsFile->addFixableError(
-                sprintf(
-                    'Add empty line before return statement in %d line.',
-                    $tokens[ $stackPtr ][ 'line' ] - 1
-                ),
+                'Add empty line before return statement in %d line.',
                 $stackPtr,
-                'AddEmptyLineBeforeReturnStatement'
+                'AddEmptyLineBeforeReturnStatement',
+                [ $tokens[ $stackPtr ][ 'line' ] - 1 ]
             );
 
             if ( $is_fixed === true ) {
                 $phpcsFile->fixer->addNewline( $previous );
+            }
+        } elseif(
+            $tokens[ $stackPtr ][ 'line' ] - $tokens[ $previous ][ 'line' ] > 1
+            && $tokens[ $previous ][ 'type' ] == 'T_OPEN_CURLY_BRACKET'
+        ) {
+            $is_fixed =  $phpcsFile->addFixableError(
+                'Remove empty line before return statement in %d line.',
+                $stackPtr,
+                'RemoveEmptyLineBeforeReturnStatement',
+                [ $tokens[ $previous ]['line'] - 1 ]
+            );
+
+            if ( $is_fixed === true ) {
+                $phpcsFile->fixer->replaceToken( $previous, '' );
             }
         }
     }

@@ -11,7 +11,7 @@
     "wp-coding-standards/wpcs": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^7.5.0"
+    "phpunit/phpunit": "^5.0"
   },
   "authors": [
     {

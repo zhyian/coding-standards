@@ -40,46 +40,41 @@ class MultipleEmptyLinesSniff implements Sniff
     {
 		$tokens = $phpcsFile->getTokens();
 
-		if ( $stackPtr <= 2 ) {
+		if (
+            $stackPtr <= 2
+            || $tokens[ $stackPtr - 1 ][ 'line' ] >= $tokens[ $stackPtr ][ 'line' ]
+            || $tokens[ $stackPtr - 2 ][ 'line' ] !== $tokens[ $stackPtr - 1 ][ 'line' ]
+        ) {
 			return;
 		}
 
-		if ( $tokens[ $stackPtr - 1 ][ 'line' ] >= $tokens[ $stackPtr ][ 'line' ] ) {
-			return;
+		$next = $phpcsFile->findNext(
+            T_WHITESPACE,
+            $stackPtr,
+            null,
+            true
+        );
+
+		if ( $tokens[ $next ][ 'line' ] - $tokens[ $stackPtr ][ 'line' ] > 1 ) {
+            $is_fixed = $phpcsFile->addFixableError(
+                'Multiple empty lines should not exist in a row; found %s consecutive empty lines',
+                $stackPtr,
+                'MultipleEmptyLines',
+                [ $tokens[ $next ][ 'line' ] - $tokens[ $stackPtr ][ 'line' ] ]
+            );
+
+            if ( $is_fixed === true ) {
+                $phpcsFile->fixer->beginChangeset();
+                $index = $stackPtr;
+
+                while ( $tokens[ $index ][ 'line' ] !== $tokens[ $next ][ 'line' ] ) {
+                    $phpcsFile->fixer->replaceToken( $index, '' );
+                    $index++;
+                }
+
+                $phpcsFile->fixer->addNewlineBefore( $index );
+                $phpcsFile->fixer->endChangeset();
+            }
 		}
-
-		if ( $tokens[ $stackPtr - 2 ][ 'line' ] !== $tokens[ $stackPtr - 1 ][ 'line' ] ) {
-			return;
-		}
-
-		$next = $phpcsFile->findNext( T_WHITESPACE, $stackPtr, null, true );
-		$lines = ( $tokens[ $next ][ 'line' ] - $tokens[ $stackPtr ][ 'line' ] );
-
-		if ( $lines <= 1 ) {
-			return;
-		}
-
-		$error = 'Multiple empty lines should not exist in a row; found %s consecutive empty lines';
-		$fix   = $phpcsFile->addFixableError(
-			$error,
-			$stackPtr,
-			'MultipleEmptyLines',
-			[ $lines ]
-		);
-
-		if ( $fix !== true ) {
-			return;
-		}
-
-		$phpcsFile->fixer->beginChangeset();
-		$i = $stackPtr;
-
-		while ( $tokens[ $i ][ 'line' ] !== $tokens[ $next ][ 'line' ] ) {
-			$phpcsFile->fixer->replaceToken( $i, '' );
-			$i++;
-		}
-
-		$phpcsFile->fixer->addNewlineBefore( $i );
-		$phpcsFile->fixer->endChangeset();
 	}
 }
