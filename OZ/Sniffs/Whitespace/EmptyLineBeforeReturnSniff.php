@@ -55,7 +55,7 @@ class EmptyLineBeforeReturnSniff implements Sniff
                 'Add empty line before return statement in %d line.',
                 $stackPtr,
                 'AddEmptyLineBeforeReturnStatement',
-                [ $tokens[ $stackPtr ][ 'line' ] - 1 ]
+                [ $tokens[ $stackPtr ][ 'line' ] ]
             );
 
             if ( $is_fixed === true ) {
@@ -69,11 +69,11 @@ class EmptyLineBeforeReturnSniff implements Sniff
                 'Remove empty line before return statement in %d line.',
                 $stackPtr,
                 'RemoveEmptyLineBeforeReturnStatement',
-                [ $tokens[ $previous ]['line'] - 1 ]
+                [ $tokens[ $previous ]['line'] + 1 ]
             );
 
             if ( $is_fixed === true ) {
-                $phpcsFile->fixer->replaceToken( $previous, '' );
+                $phpcsFile->fixer->replaceToken( $previous + 1, '' );
             }
         }
     }
